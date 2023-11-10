@@ -1,22 +1,24 @@
 #include <iostream>
 #include <vector>
 
+#include "../Helyek/helyek.cpp"
+
 using namespace std;
 
 class Palya
 {
     int palyameret;
-    vector<vector<int *>> palya;
+    vector<vector<Helyek *>> palya;
 
 public:
     Palya(const int &palyameret) : palyameret(palyameret)
     {
         for (int i = 0; i < palyameret; i++)
         {
-            palya.push_back(vector<int *>()); //
+            palya.push_back(vector<Helyek *>()); //
             for (int j = 0; j < palyameret; j++)
             {
-                palya[i].push_back(nullptr);
+                palya[i].push_back(new Helyek());
             }
         }
     };
@@ -63,7 +65,7 @@ public:
                 {
                     // int szam = rand() % (palyameret * palyameret - 2 + 1) + 2;
                     // TODO majd itt nem lesz elég csak a palya i j edik elemét kiíratni
-                    int szam = *palya[i][j];
+                    int szam = palya[i][j]->ElsoElem()->getEro();
                     if (szam >= 10)
                     {
                         std::cout << szam << "| ";

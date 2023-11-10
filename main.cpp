@@ -3,7 +3,6 @@
 #include <cstdlib>
 #include <vector>
 
-#include "Eloleny/eloleny.cpp"
 #include "Palya/palya.cpp"
 
 using namespace std;
