@@ -8,20 +8,24 @@ using namespace std;
 class Palya
 {
     int palyameret;
+    int elolenydb;
     vector<vector<Helyek *>> palya;
 
 public:
-    Palya(const int &palyameret) : palyameret(palyameret)
+    Palya(const int &palyameret, const int &elolenydb) : palyameret(palyameret), elolenydb(elolenydb)
     {
         for (int i = 0; i < palyameret; i++)
         {
-            palya.push_back(vector<Helyek *>()); //
+            palya.push_back(vector<Helyek *>());
             for (int j = 0; j < palyameret; j++)
             {
-                palya[i].push_back(new Helyek());
+                palya[i].push_back(nullptr);
             }
         }
+        cout << "Palya letrejott!" << endl;
+        elolenyekElhelyezese();
     };
+
     void palyaKiiratasa()
     {
         // első oszlop
@@ -83,5 +87,38 @@ public:
             }
             cout << "---|" << endl;
         }
+    }
+
+    void elolenyekElhelyezese()
+    {
+        cout << elolenydb << endl;
+        while (elolenydb > 0)
+        {
+            vector<pair<int, int>> uresPalyaHelyek = uresHelyekMerre();
+            cout << elolenydb << endl;
+            int i = rand() % uresPalyaHelyek.size();
+            cout << i << endl;
+            int row = uresPalyaHelyek[i].first;
+            int col = uresPalyaHelyek[i].second;
+            palya[row][col] = new Helyek();
+            elolenydb--;
+            cout << palya[row][col]->ElsoElem()->getEro() << endl;
+        }
+    }
+    vector<pair<int, int>> uresHelyekMerre()
+    {
+        cout << "ures kereses" << endl;
+        vector<pair<int, int>> uresHelyek;
+        for (int i = 0; i < palyameret; i++)
+        {
+            for (int j = 0; j < palyameret; j++)
+            {
+                if (palya[i][j] == nullptr)
+                {
+                    uresHelyek.push_back(make_pair(i, j));
+                }
+            }
+        }
+        return uresHelyek;
     }
 };

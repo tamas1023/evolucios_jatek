@@ -67,7 +67,7 @@ int main(int argc, char const *argv[])
         try
         {
             string valasz;
-            cout << "Adja meg a jelenlegi elolenyek szamat (2-tol, maximum palyameret * palyameret-ig, ha nem ad meg szamot, akkor veletlen darab lesz hozzaadva: " << endl;
+            cout << "Adja meg a jelenlegi elolenyek szamat (2-tol, maximum palyameret * palyameret-ig), ha nem ad meg szamot, akkor veletlen darab lesz hozzaadva: " << endl;
             getline(cin, valasz);
 
             elolenydb = stoi(valasz);
@@ -102,7 +102,7 @@ int main(int argc, char const *argv[])
         }
     }
 
-    Palya palya(palyameret);
+    Palya palya(palyameret, elolenydb);
     palya.palyaKiiratasa();
     // vector<vector<int *>> palya(palyameret, vector<int *>(palyameret));
 
