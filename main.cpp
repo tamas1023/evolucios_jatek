@@ -11,6 +11,7 @@ int palyameret;
 bool jomeret = false;
 int elolenydb;
 bool joeloleny = false;
+bool playamenet = false;
 vector<vector<int *>> palya;
 
 // ezt majd át kell rakni a playa.cpp be, meg majd a többit is
@@ -77,13 +78,21 @@ int main(int argc, char const *argv[])
             }
             else
             {
-                // random szám generálás (2-tol, maximum(palyameret*palyameret ig))
-                // példa: palyameret = 4, ekkor a tartomány:
-                //(4 * 4 - 2 + 1) ez azt jelenti hogy 0 és 15 között sorsol, a 15 már nem tartozik bele
-                // a +2 a végén meg azt csinálja, hogy előrébb lépleti a randomot-> 2 és 17 között, de a
-                // 17 már nem tartozik bele
-                elolenydb = rand() % (palyameret * palyameret - 2 + 1) + 2;
-                joeloleny = true;
+                if (elolenydb > palyameret * palyameret)
+                {
+                    elolenydb = palyameret * palyameret;
+                    joeloleny = true;
+                }
+                else
+                {
+                    // random szám generálás (2-tol, maximum(palyameret*palyameret ig))
+                    // példa: palyameret = 4, ekkor a tartomány:
+                    //(4 * 4 - 2 + 1) ez azt jelenti hogy 0 és 15 között sorsol, a 15 már nem tartozik bele
+                    // a +2 a végén meg azt csinálja, hogy előrébb lépleti a randomot-> 2 és 17 között, de a
+                    // 17 már nem tartozik bele
+                    elolenydb = rand() % (palyameret * palyameret - 2 + 1) + 2;
+                    joeloleny = true;
+                }
             }
 
             cout << "Az eloleny meret: " << elolenydb << endl;
@@ -104,6 +113,29 @@ int main(int argc, char const *argv[])
 
     Palya palya(palyameret, elolenydb);
     palya.palyaKiiratasa();
+    while (!playamenet)
+    {
+        // ide jön a gombokra a mozgás, a harc, esetleg a power uppok (+1 élet, és + erő), a megjelenítés
+        // nem biztos hogy itt kell majd mindet meghívni
+        string input = "";
+        cout << endl
+             << "-----------------------------------------------" << endl
+             << endl;
+
+        cout << "Korok szama: " << to_string(palya.getKorokSzama()) << endl
+             << endl;
+        cout << "Muveletek:" << endl;
+        cout << "  - [Enter] - Kovetkezo kor" << endl;
+        cout << "  - q - Kilepes" << endl;
+        cout << "Muvelet: ";
+        getline(cin, input);
+        if (input == "")
+        {
+            palya.palyaMozgatasa();
+            palya.palyaKiiratasa();
+        }
+    }
+
     // vector<vector<int *>> palya(palyameret, vector<int *>(palyameret));
 
     return 0;

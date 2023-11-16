@@ -16,9 +16,21 @@ public:
     {
         hely.push_back(new Eloleny());
     };
+    Helyek(Eloleny *eloleny)
+    {
+        hely.push_back(eloleny);
+    }
     Eloleny *ElsoElem()
     {
         return this->hely[0];
+    }
+    void addEloleny(Eloleny *eloleny)
+    {
+        hely.push_back(eloleny);
+    }
+    vector<Eloleny *> OsszesElem()
+    {
+        return hely;
     }
     ~Helyek();
 };

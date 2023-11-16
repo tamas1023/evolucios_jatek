@@ -9,6 +9,7 @@ class Palya
 {
     int palyameret;
     int elolenydb;
+    int korokSzama = 0;
     vector<vector<Helyek *>> palya;
 
 public:
@@ -22,26 +23,26 @@ public:
                 palya[i].push_back(nullptr);
             }
         }
-        cout << "Palya letrejott!" << endl;
+
         elolenyekElhelyezese();
     };
 
     void palyaKiiratasa()
     {
         // első oszlop
-        std::cout << "     ";
+        cout << "     ";
         for (int i = 0; i < palyameret; i++)
         {
             if (i < 10)
             {
-                std::cout << i << "   ";
+                cout << i << "   ";
             }
             else
             {
-                std::cout << i << "  ";
+                cout << i << "  ";
             }
         }
-        std::cout << std::endl;
+        cout << endl;
         for (int i = 0; i < palyameret; i++)
         {
             cout << "---|";
@@ -52,31 +53,31 @@ public:
         {
             if (i < 10)
             {
-                std::cout << " " << i << " | ";
+                cout << " " << i << " | ";
             }
             else
             {
-                std::cout << i << " | ";
+                cout << i << " | ";
             }
             for (int j = 0; j < palyameret; j++)
             {
                 // TODO átállítani majd == re mert ez ideiglenes
                 if (palya[i][j] == nullptr)
                 {
-                    std::cout << 0 << " | ";
+                    cout << 0 << " | ";
                 }
                 else
                 {
                     // int szam = rand() % (palyameret * palyameret - 2 + 1) + 2;
                     // TODO majd itt nem lesz elég csak a palya i j edik elemét kiíratni
-                    int szam = palya[i][j]->ElsoElem()->getEro();
+                    int szam = palya[i][j]->ElsoElem()->getSzint();
                     if (szam >= 10)
                     {
-                        std::cout << szam << "| ";
+                        cout << szam << "| ";
                     }
                     else
                     {
-                        std::cout << szam << " | ";
+                        cout << szam << " | ";
                     }
                 }
             }
@@ -89,25 +90,44 @@ public:
         }
     }
 
+    void palyaMozgatasa()
+    {
+        cout << "IDEEEE" << endl;
+        Eloleny *eloleny = palya[2][3]->ElsoElem();
+        palya[2][3] = nullptr;
+        eloleny->setSzint(4);
+        palya[3][3]->addEloleny(eloleny);
+        korokSzama++;
+        vector<Eloleny *> elolenyek = palya[3][3]->OsszesElem();
+        cout << palya[3][3]->ElsoElem()->getSzint() << endl;
+        cout << palya[3][3]->OsszesElem().size() << endl;
+        cout << "Elso: " << elolenyek[0]->getSzint() << endl;
+        cout << "Masodik: " << elolenyek[1]->getSzint() << endl;
+    }
+
+    int getKorokSzama()
+    {
+        return korokSzama;
+    }
     void elolenyekElhelyezese()
     {
-        cout << elolenydb << endl;
+
         while (elolenydb > 0)
         {
             vector<pair<int, int>> uresPalyaHelyek = uresHelyekMerre();
-            cout << elolenydb << endl;
+
             int i = rand() % uresPalyaHelyek.size();
-            cout << i << endl;
+
             int row = uresPalyaHelyek[i].first;
             int col = uresPalyaHelyek[i].second;
             palya[row][col] = new Helyek();
             elolenydb--;
-            cout << palya[row][col]->ElsoElem()->getEro() << endl;
+            // cout << palya[row][col]->ElsoElem()->getEro() << endl;
         }
     }
     vector<pair<int, int>> uresHelyekMerre()
     {
-        cout << "ures kereses" << endl;
+
         vector<pair<int, int>> uresHelyek;
         for (int i = 0; i < palyameret; i++)
         {
