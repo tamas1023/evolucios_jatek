@@ -19,7 +19,7 @@ vector<vector<int *>> palya;
 
 int main(int argc, char const *argv[])
 {
-
+    srand(time(0));
     while (!jomeret)
     {
         try
@@ -70,7 +70,13 @@ int main(int argc, char const *argv[])
             string valasz;
             cout << "Adja meg a jelenlegi elolenyek szamat (2-tol, maximum palyameret * palyameret-ig), ha nem ad meg szamot, akkor veletlen darab lesz hozzaadva: " << endl;
             getline(cin, valasz);
-
+            if (valasz == "")
+            {
+                elolenydb = rand() % (palyameret * palyameret - 2 + 1) + 2;
+                joeloleny = true;
+                cout << "Az eloleny meret: " << elolenydb << endl;
+                break;
+            }
             elolenydb = stoi(valasz);
             if (elolenydb >= 2 && elolenydb <= palyameret * palyameret)
             {

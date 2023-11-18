@@ -20,13 +20,21 @@ public:
     {
         hely.push_back(eloleny);
     }
+    Helyek(int ero)
+    {
+        hely.push_back(new Eloleny(ero));
+    }
     Eloleny *ElsoElem()
     {
         return this->hely[0];
     }
-    void addEloleny(Eloleny *eloleny)
+    void hozaadEloleny(Eloleny *eloleny)
     {
         hely.push_back(eloleny);
+    }
+    void elveszEloleny()
+    {
+        hely.pop_back();
     }
     vector<Eloleny *> OsszesElem()
     {

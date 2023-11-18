@@ -7,10 +7,14 @@ class Eloleny
 public:
     Eloleny()
     {
-        this->ero = 10;
+        this->ero = rand() % 100;
         this->szint = 1;
     };
-
+    Eloleny(int ero)
+    {
+        this->ero = ero;
+        this->szint = 1;
+    }
     void setEro(int e)
     {
         ero = e;
