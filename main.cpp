@@ -11,7 +11,7 @@ int palyameret;
 bool jomeret = false;
 int elolenydb;
 bool joeloleny = false;
-bool playamenet = false;
+bool playamenet = true;
 vector<vector<int *>> palya;
 
 // ezt majd át kell rakni a playa.cpp be, meg majd a többit is
@@ -96,12 +96,23 @@ int main(int argc, char const *argv[])
                     //(4 * 4 - 2 + 1) ez azt jelenti hogy 0 és 15 között sorsol, a 15 már nem tartozik bele
                     // a +2 a végén meg azt csinálja, hogy előrébb lépleti a randomot-> 2 és 17 között, de a
                     // 17 már nem tartozik bele
-                    elolenydb = rand() % (palyameret * palyameret - 2 + 1) + 2;
+                    if (elolenydb < 2)
+                    {
+                        elolenydb = 2;
+                    }
+                    else
+                    {
+                        elolenydb = rand() % (palyameret * palyameret - 2 + 1) + 2;
+                    }
+                    // elolenydb = rand() % (palyameret * palyameret - 2 + 1) + 2;
                     joeloleny = true;
                 }
             }
 
             cout << "Az eloleny meret: " << elolenydb << endl;
+            cout << endl
+                 << "-----------------------------------------------" << endl
+                 << endl;
         }
         catch (invalid_argument &e)
         {
@@ -116,33 +127,52 @@ int main(int argc, char const *argv[])
             cerr << e.what() << '\n';
         }
     }
-
-    Palya palya(palyameret, elolenydb);
-    palya.palyaKiiratasa();
-    while (!playamenet)
+    try
     {
-        // ide jön a gombokra a mozgás, a harc, esetleg a power uppok (+1 élet, és + erő), a megjelenítés
-        // nem biztos hogy itt kell majd mindet meghívni
-        string input = "";
-        cout << endl
-             << "-----------------------------------------------" << endl
-             << endl;
-
-        cout << "Korok szama: " << to_string(palya.getKorokSzama()) << endl
-             << endl;
-        cout << "Muveletek:" << endl;
-        cout << "  - [Enter] - Kovetkezo kor" << endl;
-        cout << "  - q - Kilepes" << endl;
-        cout << "Muvelet: ";
-        getline(cin, input);
-        if (input == "")
+        Palya palya(palyameret, elolenydb);
+        palya.palyaKiiratasa();
+        while (playamenet)
         {
-            palya.palyaMozgatasa();
-            palya.palyaKiiratasa();
-        }
-    }
+            // ide jön a gombokra a mozgás, a harc, esetleg a power uppok (+1 élet, és + erő), a megjelenítés
+            // nem biztos hogy itt kell majd mindet meghívni
+            string input = "";
+            cout << endl
+                 << "-----------------------------------------------" << endl
+                 << endl;
 
-    // vector<vector<int *>> palya(palyameret, vector<int *>(palyameret));
+            cout << "Korok szama: " << to_string(palya.getKorokSzama()) << endl
+                 << endl;
+            cout << "Muveletek:" << endl;
+            cout << "  - [Enter] - Kovetkezo kor" << endl;
+            cout << "  - q - Kilepes" << endl;
+            cout << "Muvelet: ";
+            getline(cin, input);
+            cout << endl
+                 << "-----------------------------------------------" << endl
+                 << endl;
+            if (input == "")
+            {
+                palya.palyaMozgatasa();
+                palya.palyaKiiratasa();
+            }
+            if (input == "q")
+            {
+                playamenet = false;
+                cout << "Kilepes..." << endl;
+            }
+        }
+
+        // vector<vector<int *>> palya(palyameret, vector<int *>(palyameret));
+    }
+    catch (const bad_alloc &e)
+    {
+        cerr << "Failed to allocate memory: " << e.what() << endl;
+        // Handle the error gracefully, e.g., exit the program or prompt the user to provide a smaller size.
+    }
+    catch (const std::exception &e)
+    {
+        std::cerr << e.what() << '\n';
+    }
 
     return 0;
 }

@@ -3,6 +3,7 @@ class Eloleny
     // a limit az 100 erő a szintlépéshez
     int ero;
     int szint;
+    int mozgatotte = false;
 
 public:
     Eloleny()
@@ -31,7 +32,14 @@ public:
     {
         szint = sz;
     }
-
+    bool getMozgatotte()
+    {
+        return mozgatotte;
+    }
+    void setMozgatotte(int m)
+    {
+        mozgatotte = m;
+    }
     /*
 void harc(vector<vector<Eloleny *>> &palya)
 {
