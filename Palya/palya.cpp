@@ -72,13 +72,27 @@ public:
                     // int szam = rand() % (palyameret * palyameret - 2 + 1) + 2;
                     // TODO majd itt nem lesz elég csak a palya i j edik elemét kiíratni
                     int szam = palya[i][j]->ElsoElem()->getSzint();
-                    if (szam >= 10)
+                    if (szam < 0)
                     {
-                        cout << szam << "| ";
+                        if (szam == -1)
+                        {
+                            cout << "X | ";
+                        }
+                        else
+                        {
+                            cout << "E | ";
+                        }
                     }
                     else
                     {
-                        cout << szam << " | ";
+                        if (szam >= 10)
+                        {
+                            cout << szam << "| ";
+                        }
+                        else
+                        {
+                            cout << szam << " | ";
+                        }
                     }
                 }
             }
@@ -93,132 +107,238 @@ public:
 
     void palyaMozgatasa()
     {
-        // cout << "palyaMozgatasa" << endl;
-        vector<pair<int, int>> mozgatasElolenyek = elolenyHelyek();
-        // cout << mozgatasElolenyek.size() << endl;
-
-        for (int i = 0; i < mozgatasElolenyek.size(); i++)
+        try
         {
-            int sor = mozgatasElolenyek[i].first;
-            int oszlop = mozgatasElolenyek[i].second;
-            Eloleny *eloleny = palya[sor][oszlop]->ElsoElem();
-            // cout << "Eloleny: " << eloleny->getEro() << endl;
-            // cout << "Helye: " << mozgatasElolenyek[i].first << ", " << mozgatasElolenyek[i].second << endl;
+            vector<pair<int, int>> mozgatasElolenyek = elolenyHelyek();
+            // cout << mozgatasElolenyek.size() << endl;
 
-            // itt nem vagyok biztos benne, hogy teljesen jó e ez as megoldás
-            // mert mi van ha a helyére megy megint valami, idk
-            // cout << "Osszes elem: " << palya[sor][oszlop]->OsszesElem().size() << endl;
-            palya[sor][oszlop]->elveszEloleny();
-            // cout << "Elso elem kivetel utan: " << palya[sor][oszlop]->OsszesElem().size() << endl;
-            //  palya[sor][oszlop] = new Helyek();
-            //  ide jön az új hely re lépés véletlenszerűen, 0 fel 1 jobbra 2 lefele 3-balra
-
-            // Lehet hogy elírtam a sor oszlopokat, vagy nem,tudom
-
-            int veletlenMerre = rand() % 4;
-            // cout << "Veletlen erteke: " << veletlenMerre << endl;
-            switch (veletlenMerre)
+            for (int i = 0; i < mozgatasElolenyek.size(); i++)
             {
-            case 0:
-                if (sor - 1 < 0)
-                {
-                    sor = palyameret - 1;
-                }
-                else
-                {
-                    sor--;
-                }
-                // cout << sor << ", " << oszlop << endl;
-                //  itt a baj, mert a hozzáadás null ponternél összecsuklik, meg kell nézni hogy van e elem, ha nincs new Eloleny
-                //  Ha már van akkor hozzaadEloleny
-                palya[sor][oszlop]->hozaadEloleny(eloleny);
+                int sor = mozgatasElolenyek[i].first;
+                int oszlop = mozgatasElolenyek[i].second;
 
-                // cout << "uj helye: " << sor << ", " << oszlop << endl;
-                //  cout << palya[sor][oszlop]->ElsoElem()->getEro() << endl;
-                //   palya[sor][oszlop] = new Helyek(eloleny);
-                break;
-            case 1:
-                if (oszlop + 1 >= palyameret)
+                // a + élet miatt meg egy helyen több élőlény is lehet
+                // cout << "Osszes elem lekeres elott" << endl;
+                vector<Eloleny *> elolenyek = palya[sor][oszlop]->OsszesElem();
+                // cout << elolenyek.size() << endl;
+                int sikerestorlesek = 0;
+                for (int j = elolenyek.size() - 1; j >= 0; j--)
                 {
-                    oszlop = 0;
-                }
-                else
-                {
-                    oszlop++;
-                }
-                // cout << sor << ", " << oszlop << endl;
+                    // ezért kérjük le újra az összes elemet, mert a törlést mi lekezeljük a helyeknél,
+                    // de a pályába nem, és ez okoz problémát
+                    // elolenyek = palya[sor][oszlop]->OsszesElem();
+                    Eloleny *eloleny = elolenyek[j];
+                    // cout << "Kivalasztott eloleny" << endl;
+                    if (eloleny->getSzint() < 0)
+                    {
+                        // ha -1 akkor az ero noveles,
+                        // ha -2 akkor az +1 elet
+                        // cout << "Szint kisebb mint 0" << endl;
+                        if (eloleny->getSzint() == -1)
+                        {
+                            eloleny->setMozgatotte(true);
+                        }
+                        else
+                        {
+                            eloleny->setMozgatotte(true);
+                        }
+                    }
 
-                palya[sor][oszlop]->hozaadEloleny(eloleny);
-
-                // cout << "uj helye: " << sor << ", " << oszlop << endl;
-                //  cout << palya[sor][oszlop]->ElsoElem()->getEro() << endl;
-                //   palya[sor][oszlop]->hozaadEloleny(eloleny);
-                break;
-            case 2:
-                if (sor + 1 >= palyameret)
-                {
-                    sor = 0;
+                    // ha nincs mozgatva
+                    if (!eloleny->getMozgatotte())
+                    {
+                        // cout << "Ha nincs mozgatva" << endl;
+                        eloleny->setMozgatotte(true);
+                        // cout << "Palya sor oszlop torles elott" << endl;
+                        //  itt azert mert ha törlés volt, akkor "elcsúszás történik",
+                        //  mert az elolenyek nem frissul, de a palya igen és itt keletkezik az elotás
+                        //  de ezzel ezt kiküszöbölhetjük
+                        int seged = j;
+                        /*
+                        if (sikerestorlesek > 0)
+                        {
+                            seged -= sikerestorlesek;
+                        }
+                        */
+                        palya[sor][oszlop]->elveszElolenyHatul(seged);
+                        sikerestorlesek++;
+                        // cout << "torles utan" << endl;
+                        int veletlenMerre = rand() % 4;
+                        // cout << "Mozgas elott" << endl;
+                        // cout << eloleny->getSzint() << endl;
+                        // cout << eloleny->getEro() << endl;
+                        // cout << eloleny->getElet() << endl;
+                        switch (veletlenMerre)
+                        {
+                        case 0:
+                            if (sor - 1 < 0)
+                            {
+                                sor = palyameret - 1;
+                            }
+                            else
+                            {
+                                sor--;
+                            }
+                            // cout << "Hozzaadas elott" << endl;
+                            // cout << sor << " " << oszlop << endl;
+                            palya[sor][oszlop]->hozaadEloleny(eloleny);
+                            break;
+                        case 1:
+                            if (oszlop + 1 >= palyameret)
+                            {
+                                oszlop = 0;
+                            }
+                            else
+                            {
+                                oszlop++;
+                            }
+                            // cout << "Hozzaadas elott" << endl;
+                            // cout << sor << " " << oszlop << endl;
+                            palya[sor][oszlop]->hozaadEloleny(eloleny);
+                            break;
+                        case 2:
+                            if (sor + 1 >= palyameret)
+                            {
+                                sor = 0;
+                            }
+                            else
+                            {
+                                sor++;
+                            }
+                            // cout << "Hozzaadas elott" << endl;
+                            // cout << sor << " " << oszlop << endl;
+                            palya[sor][oszlop]->hozaadEloleny(eloleny);
+                            break;
+                        case 3:
+                            if (oszlop - 1 < 0)
+                            {
+                                oszlop = palyameret - 1;
+                            }
+                            else
+                            {
+                                oszlop--;
+                            }
+                            // cout << "Hozzaadas elott" << endl;
+                            // cout << sor << " " << oszlop << endl;
+                            palya[sor][oszlop]->hozaadEloleny(eloleny);
+                            break;
+                        default:
+                            break;
+                        }
+                    }
+                    else
+                    {
+                        // cout << "Mozgatva volt" << endl;
+                    }
+                    // majd harcoláskor vissza kell állítani a motgatotte változót hamisra
                 }
-                else
-                {
-                    sor++;
-                }
-                // cout << sor << ", " << oszlop << endl;
 
-                palya[sor][oszlop]->hozaadEloleny(eloleny);
+                // Eloleny *eloleny = palya[sor][oszlop]->ElsoElem();
+                // palya[sor][oszlop]->elveszEloleny();
 
-                // cout << "uj helye: " << sor << ", " << oszlop << endl;
-                //  cout << palya[sor][oszlop]->ElsoElem()->getEro() << endl;
-                //   palya[sor][oszlop]->hozaadEloleny(eloleny);
-                break;
-            case 3:
-                if (oszlop - 1 < 0)
-                {
-                    oszlop = palyameret - 1;
-                }
-                else
-                {
-                    oszlop--;
-                }
-                // cout << sor << ", " << oszlop << endl;
-
-                palya[sor][oszlop]->hozaadEloleny(eloleny);
-                // cout << "uj helye: " << sor << ", " << oszlop << endl;
-                //  cout << palya[sor][oszlop]->ElsoElem()->getEro() << endl;
-                //   palya[sor][oszlop]->hozaadEloleny(eloleny);
-                break;
-            default:
-                break;
+                // int veletlenMerre = rand() % 4;
+                //  cout << "Veletlen erteke: " << veletlenMerre << endl;
             }
-        }
-        /*
-        for (int i = 0; i < palyameret; i++)
-        {
-            for (int j = 0; j < palyameret; j++)
+            /*
+            for (int i = 0; i < palyameret; i++)
             {
-                cout << palya[i][j]->OsszesElem().size() << ", Elemek: ";
-                int k = palya[i][j]->OsszesElem().size();
-                for (int l = 0; l < k; l++)
+                for (int j = 0; j < palyameret; j++)
                 {
-                    cout << palya[i][j]->OsszesElem()[l]->getEro() << ", ";
+                    cout << palya[i][j]->OsszesElem().size() << ", Elemek: ";
+                    int k = palya[i][j]->OsszesElem().size();
+                    for (int l = 0; l < k; l++)
+                    {
+                        cout << palya[i][j]->OsszesElem()[l]->getEro() << ", ";
+                    }
+                    cout << endl;
                 }
                 cout << endl;
             }
-            cout << endl;
-        }
-        */
-        // cout << "------------------------------------" << endl;
-        // cout << "Harc" << endl;
-        for (int i = 0; i < palyameret; i++)
-        {
-            for (int j = 0; j < palyameret; j++)
+            */
+            // cout << "------------------------------------" << endl;
+            // cout << "Harc" << endl;
+            for (int i = 0; i < palyameret; i++)
             {
-                if (palya[i][j]->OsszesElem().size() > 1)
+                for (int j = 0; j < palyameret; j++)
                 {
-                    palya[i][j]->Harc();
+                    // cout << "Hol esik ossze: " << palya[i][j]->OsszesElem().size() << endl;
+                    if (palya[i][j]->OsszesElem().size() > 1)
+                    {
+                        // cout << "Harc a tulelesert" << endl;
+                        palya[i][j]->Harc();
+                    }
+                    else
+                    {
+                        if (palya[i][j]->OsszesElem().size() == 1)
+                        {
+                            // cout << "Mozgatas beallitas" << endl;
+                            // cout << "Meret: " << palya[i][j]->OsszesElem().size() << endl;
+                            palya[i][j]->ElsoElem()->setMozgatotte(false);
+                        }
+                    }
+                }
+            }
+            // cout << "Harc utan" << endl;
+            korokSzama++;
+            if (korokSzama % 10 == 0)
+            {
+                int veletlenErositesekDB;
+                if (palyameret > 4 && palyameret <= 6)
+                {
+                    veletlenErositesekDB = rand() % 2 + 1;
+                }
+                else
+                {
+                    veletlenErositesekDB = rand() % 3 + 1;
+                }
+                vector<pair<int, int>> uresPalyaHelyek = uresHelyekMerre();
+                if (!(uresPalyaHelyek.size() < veletlenErositesekDB))
+                {
+                    for (int i = 0; i < veletlenErositesekDB; i++)
+                    {
+                        uresPalyaHelyek = uresHelyekMerre();
+                        int k = rand() % uresPalyaHelyek.size();
+                        int sor = uresPalyaHelyek[k].first;
+                        int oszlop = uresPalyaHelyek[k].second;
+                        int veletpenErosites = -1 * (rand() % 10 + 1);
+                        // ha -1 akkor az ero noveles,
+                        // ha -2 akkor az +1 elet
+                        // És itt van 20 % esélye hogy +1 életet csiáljon a játék
+                        // A maradék 80% ban erőt csinál majd a játék
+                        if (veletpenErosites < -8)
+                        {
+                            veletpenErosites = -2;
+                        }
+                        else
+                        {
+                            veletpenErosites = -1;
+                        }
+
+                        // ilyenkor módosítani kel majd a harcot
+                        // palya[sor][oszlop]->hozaadEloleny(new Eloleny(veletpenErosites));
+                        palya[sor][oszlop] = new Helyek(veletpenErosites);
+                    }
+                }
+
+                for (int i = 0; i < palyameret; i++)
+                {
+                    for (int j = 0; j < palyameret; j++)
+                    {
+                        if (palya[i][j]->OsszesElem().size() > 0)
+                        {
+                            palya[i][j]->SzintLepes();
+                        }
+                    }
                 }
             }
         }
+        catch (const exception &e)
+        {
+            cerr << e.what() << '\n';
+        }
+
+        // cout << "palyaMozgatasa" << endl;
+
         // cout << "------------------------------------" << endl;
         // cout << "Uj palya: " << endl;
         /*
@@ -237,7 +357,7 @@ public:
             cout << endl;
         }
         */
-        korokSzama++;
+
         /*
         Eloleny *eloleny = palya[2][3]->ElsoElem();
         palya[2][3]->elveszEloleny();
@@ -311,5 +431,32 @@ public:
             }
         }
         return elolenyHelyek;
+    }
+
+    int getElolenyDB()
+    {
+        int db = 0;
+        for (int i = 0; i < palyameret; i++)
+        {
+            for (int j = 0; j < palyameret; j++)
+            {
+                int seged = 0;
+                if (palya[i][j]->OsszesElem().size() > 0)
+                {
+                    seged = 0;
+                    vector<Eloleny *> elolenyek = palya[i][j]->OsszesElem();
+                    for (int k = 0; k < palya[i][j]->OsszesElem().size(); k++)
+                    {
+                        if (elolenyek[k]->getSzint() > 0)
+                        {
+                            seged++;
+                        }
+                    }
+                }
+                db += seged;
+                // db += palya[i][j]->OsszesElem().size();
+            }
+        }
+        return db;
     }
 };

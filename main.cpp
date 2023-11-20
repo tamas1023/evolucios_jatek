@@ -113,6 +113,7 @@ int main(int argc, char const *argv[])
             cout << endl
                  << "-----------------------------------------------" << endl
                  << endl;
+            cout << "A palyan ha latunk X et az erot ad annak aki odaer, az E meg +1 eletet ad annak aki odaer " << endl;
         }
         catch (invalid_argument &e)
         {
@@ -142,16 +143,31 @@ int main(int argc, char const *argv[])
 
             cout << "Korok szama: " << to_string(palya.getKorokSzama()) << endl
                  << endl;
+            if (palya.getElolenyDB() == 1)
+            {
+                cout << "A 1 eloleny maradt hatra, van nyertesunk. " << endl;
+                playamenet = false;
+                cout << "Kilepes..." << endl;
+                break;
+            }
+
+            if (palya.getKorokSzama() == 20)
+            {
+                cout << "A 20 kornek vege lett! Ha folytatni szeretned a jatekok, akkor csak nyomja meg ujra az enter-t." << endl;
+                cout << "Ha viszont ki szeretne lepni, es nem szertne folytatni a jatekot, akkor nyomja meg a q-t." << endl;
+            }
             cout << "Muveletek:" << endl;
             cout << "  - [Enter] - Kovetkezo kor" << endl;
             cout << "  - q - Kilepes" << endl;
             cout << "Muvelet: ";
+
             getline(cin, input);
             cout << endl
                  << "-----------------------------------------------" << endl
                  << endl;
             if (input == "")
             {
+
                 palya.palyaMozgatasa();
                 palya.palyaKiiratasa();
             }
