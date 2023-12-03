@@ -29,14 +29,14 @@ public:
     }
     void hozaadEloleny(Eloleny *eloleny)
     {
-        //cout << "Eloleny hozzaadas: " << hely.size() << endl;
-        //cout << eloleny->getSzint() << endl;
-        //cout << eloleny->getEro() << endl;
-        //cout << eloleny->getElet() << endl;
+        // cout << "Eloleny hozzaadas: " << hely.size() << endl;
+        // cout << eloleny->getSzint() << endl;
+        // cout << eloleny->getEro() << endl;
+        // cout << eloleny->getElet() << endl;
         try
         {
             hely.push_back(eloleny);
-            //cout << "Sikeres hozzaadas " << hely.size() << endl;
+            // cout << "Sikeres hozzaadas " << hely.size() << endl;
         }
         catch (const std::exception &e)
         {
@@ -50,16 +50,16 @@ public:
     }
     void elveszElolenyHatul(int j)
     {
-        //cout << "Torles elott" << endl;
-        //cout << "A torlendo hely: " << j << endl;
+        // cout << "Torles elott" << endl;
+        // cout << "A torlendo hely: " << j << endl;
         if (j == hely.size())
         {
             j = hely.size() - 1;
         }
-        //cout << "A torlendo hely: " << j << endl;
-        //cout << "A helyek szama: " << hely.size() << endl;
+        // cout << "A torlendo hely: " << j << endl;
+        // cout << "A helyek szama: " << hely.size() << endl;
         hely.erase(hely.begin() + j);
-        //cout << "Torles utan!!!" << endl;
+        // cout << "Torles utan!!!" << endl;
     }
     vector<Eloleny *>
     OsszesElem()

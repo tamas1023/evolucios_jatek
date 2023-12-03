@@ -1,9 +1,0 @@
-A játék beolvas egy kezdeti térképet ahol minden objektum egyszerű élőlény egy kezdeti erővel. Ha 2
-élőlény egy mezőre lép (egy mezőn létezik), akkor az erősebb marad életben és a gyengébb erejével
-növeli erejét.
-A térképen lehetnek még olyan elemek is, melyek extra képességet adnak az élőlényeknek, pl erőnövelés
-vagy halál esetén újraéledés egy random üres mezőn.
-10 játékciklus lefutása után az élőlények fejlődnek. Minden LIMIT (játék kezdeti paramétere) feletti élőlény
-evolúciós lépésen megy át. Ezután nemcsak az erő érték dönti el a túlélőt, hanem az is, hogy milyen
-evolúciós lépcsőn szerepel. Ekkor a magasabb lépcsőfokon lévő, még ha gyengébb is, biztosan nyer.
-A játék 20 cikluson keresztül szimulálja a játékot és a felhasználó konzol segítségével lépteti a játékciklust.

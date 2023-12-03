@@ -154,7 +154,7 @@ int main(int argc, char const *argv[])
             if (palya.getKorokSzama() == 20)
             {
                 cout << "A 20 kornek vege lett! Ha folytatni szeretned a jatekok, akkor csak nyomja meg ujra az enter-t." << endl;
-                cout << "Ha viszont ki szeretne lepni, es nem szertne folytatni a jatekot, akkor nyomja meg a q-t." << endl;
+                cout << "Ha viszont ki szeretne lepni, es nem szertne folytatni a jatekot, akkor nyomja meg a q-t, aztan entert." << endl;
             }
             cout << "Muveletek:" << endl;
             cout << "  - [Enter] - Kovetkezo kor" << endl;

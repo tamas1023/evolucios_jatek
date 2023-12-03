@@ -1,0 +1,37 @@
+Az evolúciós játék:
+
+A fordításhoz szükséges scrpit: g++ -o jatek main.cpp
+A fordítás helyes lefutásához a fő mappában (ahol a main.cpp található) kell futtatni.
+A futtatható állományt a fő mappába fog kerülni és onnan el lehet indítani. 
+
+A játék 2 kérdést fog feltenni:
+    1. a játék tér mérete: ha nem ad meg semmit akkor 5,ha ad meg számot akkor 4 és 10 közötti értéket vár el, ha ennél kisebb értéket ad meg 
+    akkor 4 re állítja az értéket, és ha több mint 10 et írt be, akkor 10 re állítja a méretet.
+    2. az élőlények száma: ha nem ad meg semmit akkor véletlen 2 és a tábla méret * tábla mérete közötti élőlényt generál
+    ,ha viszont ad meg számot akkor 2 és a tábla méret * tábla mérete közötti számot kér, ha kisebb számot ad meg mint 2, akkor 2 re állítja
+    az élőlények számát, ha viszont többet ad meg mint a maximum, akkor a maximumra fogja állítani.
+    
+
+Az enter gomb lenyomásával lehet léptetni a játékot.
+A q gombot lenyomva azután entert lenyomva lehet kilépni a játékból.
+
+Az élőlények lerakása véletlenül történik.
+Az élőlények ereje véletlen lesz 20 és 40 között.
+Az élőlények 10 játékciklusonként szintet lépnek, ha az erejük nagyobb mint 100, ha szintet lépett akkor az erejéből leveszünk 100 at,
+és a szintje növekedik 1 el.
+Minden 10 játékciklusonként jönnek erősítések, X vagy E jellel lesznek jelölve. Az X az ad véletlen 20 és 40 közötti erőt annak aki felveszi.
+Az E jellel jelölt erősítés meg +1 életet ad annak aki felveszi.
+
+A játék addig megy ameddik a felhasználó ki nem lép, vagy addig ameddig csak 1 élőlény nem maradt életben.
+
+Példa input:
+Mind a 2 kérdésre válasz nélkül tovább megyünk.
+Ilyenkor a játéktér egy 5*5 ös tér, 2 és 25 között fog véletlen generálni élőlényt.
+Az enter lenyomásával kirajzolja a játékteret és utána kiírja a körök számát és az opciókat hogy folytani szeretnénk-e a játékot vagy kilépni.
+Ha csak 1 élőlény maradt akkor kiírja hogy lett egy nyertes.
+
+Még egy példa input:
+Az első kérdésre 7 et választunk. Ilyenkor a játéktér egy 7*7 ös tér lessz.
+Választunk 29 élőlényt. Ilyenkor 29 élőlényt kell látnunk a pályán.
+Az enter lenyomásával kirajzolja a játékteret és utána kiírja a körök számát és az opciókat hogy folytani szeretnénk-e a játékot vagy kilépni.
+Ha csak 1 élőlény maradt akkor kiírja hogy lett egy nyertes.
