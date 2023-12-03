@@ -7,7 +7,7 @@ A futtatható állományt a fő mappába fog kerülni és onnan el lehet indíta
 A játék 2 kérdést fog feltenni:
     1. a játék tér mérete: ha nem ad meg semmit akkor 5,ha ad meg számot akkor 4 és 10 közötti értéket vár el, ha ennél kisebb értéket ad meg 
     akkor 4 re állítja az értéket, és ha több mint 10 et írt be, akkor 10 re állítja a méretet.
-    2. az élőlények száma: ha nem ad meg semmit akkor véletlen 2 és a tábla méret * tábla mérete közötti élőlényt generál
+    2. az élőlények száma: ha nem ad meg semmit akkor véletlen 2 és a tábla méret * tábla mérete közötti darabszámú élőlényt generál
     ,ha viszont ad meg számot akkor 2 és a tábla méret * tábla mérete közötti számot kér, ha kisebb számot ad meg mint 2, akkor 2 re állítja
     az élőlények számát, ha viszont többet ad meg mint a maximum, akkor a maximumra fogja állítani.
     
