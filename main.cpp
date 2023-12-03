@@ -14,9 +14,6 @@ bool joeloleny = false;
 bool playamenet = true;
 vector<vector<int *>> palya;
 
-// ezt majd át kell rakni a playa.cpp be, meg majd a többit is
-// meg majd az int * helyett majd Eloleny típusút kell megcsinálni
-
 int main(int argc, char const *argv[])
 {
     srand(time(0));
@@ -104,7 +101,6 @@ int main(int argc, char const *argv[])
                     {
                         elolenydb = rand() % (palyameret * palyameret - 2 + 1) + 2;
                     }
-                    // elolenydb = rand() % (palyameret * palyameret - 2 + 1) + 2;
                     joeloleny = true;
                 }
             }
@@ -134,8 +130,6 @@ int main(int argc, char const *argv[])
         palya.palyaKiiratasa();
         while (playamenet)
         {
-            // ide jön a gombokra a mozgás, a harc, esetleg a power uppok (+1 élet, és + erő), a megjelenítés
-            // nem biztos hogy itt kell majd mindet meghívni
             string input = "";
             cout << endl
                  << "-----------------------------------------------" << endl
@@ -177,17 +171,14 @@ int main(int argc, char const *argv[])
                 cout << "Kilepes..." << endl;
             }
         }
-
-        // vector<vector<int *>> palya(palyameret, vector<int *>(palyameret));
     }
     catch (const bad_alloc &e)
     {
         cerr << "Failed to allocate memory: " << e.what() << endl;
-        // Handle the error gracefully, e.g., exit the program or prompt the user to provide a smaller size.
     }
-    catch (const std::exception &e)
+    catch (const exception &e)
     {
-        std::cerr << e.what() << '\n';
+        cerr << e.what() << '\n';
     }
 
     return 0;

@@ -9,11 +9,9 @@ class Helyek
     vector<Eloleny *> hely;
 
 private:
-    /* data */
 public:
-    // ezek a helyek lesznek beletenni az egyes pálya helyekre, és ennek lesz vektor a oda jönnek az előlények
     Helyek(){
-        // hely.push_back(new Eloleny());
+
     };
     Helyek(Eloleny *eloleny)
     {
@@ -29,40 +27,28 @@ public:
     }
     void hozaadEloleny(Eloleny *eloleny)
     {
-        // cout << "Eloleny hozzaadas: " << hely.size() << endl;
-        // cout << eloleny->getSzint() << endl;
-        // cout << eloleny->getEro() << endl;
-        // cout << eloleny->getElet() << endl;
         try
         {
             hely.push_back(eloleny);
-            // cout << "Sikeres hozzaadas " << hely.size() << endl;
         }
-        catch (const std::exception &e)
+        catch (const exception &e)
         {
-            std::cerr << e.what() << '\n';
+            cerr << e.what() << '\n';
         }
     }
     void elveszEloleny()
     {
         hely.erase(hely.begin());
-        // hely.pop_back();
     }
     void elveszElolenyHatul(int j)
     {
-        // cout << "Torles elott" << endl;
-        // cout << "A torlendo hely: " << j << endl;
         if (j == hely.size())
         {
             j = hely.size() - 1;
         }
-        // cout << "A torlendo hely: " << j << endl;
-        // cout << "A helyek szama: " << hely.size() << endl;
         hely.erase(hely.begin() + j);
-        // cout << "Torles utan!!!" << endl;
     }
-    vector<Eloleny *>
-    OsszesElem()
+    vector<Eloleny *> OsszesElem()
     {
         return hely;
     }
