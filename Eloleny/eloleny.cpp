@@ -40,6 +40,10 @@ public:
             this->elet = 1;
         }
     }
+    bool operator>(const Eloleny &masik) const
+    {
+        return szint > masik.szint || (szint == masik.szint && ero > masik.ero);
+    }
     void setEro(int e)
     {
         ero = e;

@@ -54,17 +54,12 @@ public:
     }
     void Harc()
     {
-
-        int maxSzint = 0;
-        int maxEro = 0;
         int maxIndex = 0;
         for (int i = 0; i < hely.size(); i++)
         {
             hely[i]->setMozgatotte(false);
-            if (hely[i]->getSzint() > maxSzint || (hely[i]->getSzint() == maxSzint && hely[i]->getEro() > maxEro))
+            if (*hely[i] > *hely[maxIndex])
             {
-                maxSzint = hely[i]->getSzint();
-                maxEro = hely[i]->getEro();
                 maxIndex = i;
             }
         }
